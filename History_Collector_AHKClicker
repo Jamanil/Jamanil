@@ -31,7 +31,7 @@ Loop 											; Бесконечный цикл
 					
 				}
 			else
-				timeLogFileChanged = %newTimeLogFileChanged%	; Если дата изменилась, то обновляем переменную с эталонным временем изменения
+				timeLogFileChanged = %newTimeLogFileChanged%		; Если дата изменилась, то обновляем переменную с эталонным временем изменения
 		}
 	}
 
