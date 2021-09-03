@@ -1,0 +1,47 @@
+directoty = D:\Google drive\history_collector						; Путь к папке, где лежит скрипт
+logFile = %directoty%\history_collector.log
+checkTimeout = 600000												; Частота проверки обновления в милисекундах, 600000 - 10 минут
+IfExist, %logFile%
+	FileGetTime, timeLogFileChanged, %logFile%, M					; Если файл с логом существует, то записываем время его изменения
+
+Loop 																; Бесконечный цикл
+	{
+	sleep, checkTimeout												; Засыпаем на checkTimeout милисекунд.
+	
+	IfExist, %logFile%												; Если файла с логом не существует, пропускаем итерацию
+		{
+
+			FileGetTime, newTimeLogFileChanged, %logFile%, M		; Получаем новую дату изменения файла с логом
+			if (timeLogFileChanged == newTimeLogFileChanged)		; Проверяем, изменилась ли дата последнего изменения файла с логом за checkTimeout милисекунд.
+				{
+					if WinExist("ahk_exe cmd.exe")					; Если нет, то открываем окно консоли винды
+						{
+							WinActivate
+							sleep, 3000								; Ждем 3 секунды (на всякий случай)
+							Send {Enter}							; Нажимаем на Enter
+						}
+					
+				}
+			else
+				{
+					timeLogFileChanged = %newTimeLogFileChanged%	; Если дата изменилась, то обновляем переменную с эталонным временем изменения
+				}
+		}
+	}
+
+
++F11::                 												; Приостановка скрипта по Shift + F11.
+  If not Stop
+  {
+    Stop := True
+    Pause
+  }
+Return
+
++F12::                 												; Возобновление скрипта по Shift + F12.
+  If Stop
+  {
+    Stop := False
+    Pause
+  }
+Return
